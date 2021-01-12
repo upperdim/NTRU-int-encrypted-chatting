@@ -2,6 +2,8 @@ import math
 import random
 import sys
 
+# they all work - driver code at the bottom
+
 def egcd(a, b):
     if a == 0:
         return (b, 0, 1)
