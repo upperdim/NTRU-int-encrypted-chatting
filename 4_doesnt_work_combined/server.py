@@ -18,13 +18,38 @@ con, addr = s.accept()
 print("Connected to ", addr)
 
 while True:
+    # send message
     msg = input("Send message to client: ") # input str
     enc = encrypt_message(msg, q, f, g) # inputs str, returns int array
     sendthis = pickle.dumps(enc)
     sendthis = bytes(f"{len(sendthis):<{HEADERSIZE}}", 'utf-8')+sendthis
     con.send(sendthis) # gotta send int array
 
-    print("Waiting for reply...")
-    recieved_msg = con.recv(1024)
-    dec = decrypt_message(recieved_msg.decode(), q, f, g)
-    print("Client message: ", dec)
+    # recieve message
+    print("Wating for reply...")
+    full_msg = b''
+    new_msg = True
+    while True:
+        msg = s.recv(16)
+        if new_msg:
+            print("new msg len:", msg[:HEADERSIZE])
+            msglen = int(msg[:HEADERSIZE])
+            new_msg = False
+        
+        print(f"full message length : {msglen}")
+
+        full_msg += msg
+
+        print(len(full_msg))
+
+        if (len(full_msg) - HEADERSIZE == msglen):
+            print("full msg recvd")
+            print(full_msg[HEADERSIZE:])
+            print(pickle.loads(full_msg[HEADERSIZE:]))
+            new_msg = True
+            full_msg = b""
+
+    # print("Waiting for reply...")
+    # recieved_msg = con.recv(1024)
+    # dec = decrypt_message(recieved_msg.decode(), q, f, g)
+    # print("Client message: ", dec)

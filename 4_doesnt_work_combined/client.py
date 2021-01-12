@@ -13,6 +13,7 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect((socket.gethostname(),1243))
 
 while True:
+    # recieve message
     print("Wating for reply...")
     full_msg = b''
     new_msg = True
@@ -30,9 +31,12 @@ while True:
         print(len(full_msg))
 
         if (len(full_msg) - HEADERSIZE == msglen):
-            print("full msg recvd")
-            print(full_msg[HEADERSIZE:])
-            print(pickle.loads(full_msg[HEADERSIZE:]))
+            print("Full message recieved")
+            #print(full_msg[HEADERSIZE:]) # prints bytes in hex
+            enc = pickle.loads(full_msg[HEADERSIZE:])
+            #print(enc) # prints the int array
+            dec = decrypt_message(enc, q, f, g)
+            print(dec) # print the decrypted message
             new_msg = True
             full_msg = b""
 
@@ -40,6 +44,15 @@ while True:
     # dec = decrypt_message(recieved_msg.decode(), q, f, g)
     # print("message from server: ", dec)
 
-    msg = input("send message to server: ")
-    enc = encrypt_message(msg, q, f, g)
-    s.send(enc.encode())
+    #################################
+
+    # send message
+    msg = input("Send message to server: ") # input str
+    enc = encrypt_message(msg, q, f, g) # inputs str, returns int arr
+    sendthis = pickle.dumps(enc)
+    sendthis = bytes(f"{len(sendthis):<{HEADERSIZE}}", 'utf-8')+sendthis
+    con.send(sendthis)
+
+    # msg = input("send message to server: ")
+    # enc = encrypt_message(msg, q, f, g)
+    # s.send(enc.encode())
