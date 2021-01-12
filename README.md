@@ -15,3 +15,7 @@ Program sends the int array to the opposite side over a socket <- problem
 
 Opposite side recieves the array <- problem
 ```
+
+Sources:
+
+3_sending_array: https://pythonprogramming.net/pickle-objects-sockets-tutorial-python-3/
