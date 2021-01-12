@@ -30,7 +30,7 @@ while True:
     full_msg = b''
     new_msg = True
     while True:
-        msg = s.recv(16)
+        msg = con.recv(16)
         if new_msg:
             #print("new msg len:", msg[:HEADERSIZE])
             msglen = int(msg[:HEADERSIZE])

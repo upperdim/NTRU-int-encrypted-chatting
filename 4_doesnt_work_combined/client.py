@@ -39,6 +39,10 @@ while True:
             print(dec) # print the decrypted message
             new_msg = True
             full_msg = b""
+            # if successfully printed the message
+            # its our turn to send message
+            # break and proceed to 'send message' phase
+            break 
 
     # recieved_msg = s.recv(1024)
     # dec = decrypt_message(recieved_msg.decode(), q, f, g)
@@ -51,7 +55,7 @@ while True:
     enc = encrypt_message(msg, q, f, g) # inputs str, returns int arr
     sendthis = pickle.dumps(enc)
     sendthis = bytes(f"{len(sendthis):<{HEADERSIZE}}", 'utf-8')+sendthis
-    con.send(sendthis)
+    s.send(sendthis)
 
     # msg = input("send message to server: ")
     # enc = encrypt_message(msg, q, f, g)
