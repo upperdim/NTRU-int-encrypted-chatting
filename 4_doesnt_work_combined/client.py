@@ -4,7 +4,7 @@ from ntru import *
 
 HEADERSIZE = 10
 
-# these are for NTRU encryption
+# these are for NTRU encryption 
 q = 122430513841
 f = 231231
 g = 195698
