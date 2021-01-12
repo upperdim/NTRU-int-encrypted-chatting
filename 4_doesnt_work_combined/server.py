@@ -51,6 +51,10 @@ while True:
             print(dec) # print the decrypted message
             new_msg = True
             full_msg = b""
+            # if successfully printed the message
+            # its our turn to send message
+            # break and proceed to 'send message' phase
+            break 
 
     # print("Waiting for reply...")
     # recieved_msg = con.recv(1024)
