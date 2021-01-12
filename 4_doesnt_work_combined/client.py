@@ -20,18 +20,18 @@ while True:
     while True:
         msg = s.recv(16)
         if new_msg:
-            print("new msg len:", msg[:HEADERSIZE])
+            #print("new msg len:", msg[:HEADERSIZE])
             msglen = int(msg[:HEADERSIZE])
             new_msg = False
         
-        print(f"full message length : {msglen}")
+        #print(f"full message length : {msglen}")
 
         full_msg += msg
 
-        print(len(full_msg))
+        #print(len(full_msg))
 
         if (len(full_msg) - HEADERSIZE == msglen):
-            print("Full message recieved")
+            #print("Full message recieved")
             #print(full_msg[HEADERSIZE:]) # prints bytes in hex
             enc = pickle.loads(full_msg[HEADERSIZE:])
             #print(enc) # prints the int array

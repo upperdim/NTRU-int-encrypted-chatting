@@ -32,20 +32,23 @@ while True:
     while True:
         msg = s.recv(16)
         if new_msg:
-            print("new msg len:", msg[:HEADERSIZE])
+            #print("new msg len:", msg[:HEADERSIZE])
             msglen = int(msg[:HEADERSIZE])
             new_msg = False
         
-        print(f"full message length : {msglen}")
+        #print(f"full message length : {msglen}")
 
         full_msg += msg
 
-        print(len(full_msg))
+        #print(len(full_msg))
 
         if (len(full_msg) - HEADERSIZE == msglen):
-            print("full msg recvd")
-            print(full_msg[HEADERSIZE:])
-            print(pickle.loads(full_msg[HEADERSIZE:]))
+            #print("Full message recieved")
+            #print(full_msg[HEADERSIZE:]) # prints bytes in hex
+            enc = pickle.loads(full_msg[HEADERSIZE:])
+            #print(enc) # prints the int array
+            dec = decrypt_message(enc, q, f, g)
+            print(dec) # print the decrypted message
             new_msg = True
             full_msg = b""
 

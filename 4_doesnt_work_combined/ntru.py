@@ -62,7 +62,8 @@ def ntru_decrypt(e, q, f, g):
 
 	return b
 
-# int array way
+# recieves msg - string
+# returns new - integer array
 def encrypt_message(msg, q, f, g):
 	new = []
 
@@ -76,34 +77,17 @@ def encrypt_message(msg, q, f, g):
 		# add it to our int array that we will send
 		new.append(enc)
 
-	print("encrypt_message() : new : ", new) # debug
+	#print("encrypt_message() : new : ", new) # debug
 	return new
 
-# converting back to string way - can't convert large ints back to chars
-# def encrypt_message(msg, q, f, g):
-# 	new = ""
-
-# 	# for each element in the message
-# 	for element in msg:
-# 		# convert that element to int
-# 		conv = ord(element) 
-		
-# 		# call the func with converted int
-# 		enc = ntru_encrypt(conv, q, f, g)
-
-# 		# put that int back to a form where u can send it over the network
-# 		# (a string? int array?)
-# 		back = chr(enc)
-# 		new.append(back)
-
-# 	print("encrypt_message() : new : ", new) # debug
-# 	return new
-
+# recieves enc - integer
+# returns new - string
 def decrypt_message(enc, q, f, g):
 	new = ""
 	for element in enc:
-		new += ntru_decrypt(chr(element), q, f, g) # append decrypted char
-	print("decrypt_message() : new : ", new) # debug
+		character = chr( ntru_decrypt(element, q, f, g) ) # append decrypted char
+		new += character
+	#print("decrypt_message() : new : ", new) # debug
 	return new	
 
 
