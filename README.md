@@ -1,5 +1,7 @@
 # ntru-int-encrypted-chatting
-NTRU Integer encrypted chatting over socket
+NTRU Integer encrypted chatting over socket. 
+
+Program is inside `4_doesnt_work_combined` folder
 
 ```
 Program inputs a string
