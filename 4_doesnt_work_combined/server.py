@@ -15,7 +15,8 @@ s.bind((socket.gethostname(), 1243))
 s.listen(5)
 
 con, addr = s.accept()
-print("Connected to ", addr)
+#print("Connected to ", addr).
+print("Connected") # dont show ip or adresses
 
 while True:
     # send message
@@ -23,7 +24,7 @@ while True:
     enc = encrypt_message(msg, q, f, g) # inputs str, returns int array
     sendthis = pickle.dumps(enc)
     sendthis = bytes(f"{len(sendthis):<{HEADERSIZE}}", 'utf-8')+sendthis
-    con.send(sendthis) # gotta send int array
+    con.send(sendthis)
 
     # recieve message
     print("Wating for reply...")
@@ -32,31 +33,16 @@ while True:
     while True:
         msg = con.recv(16)
         if new_msg:
-            #print("new msg len:", msg[:HEADERSIZE])
             msglen = int(msg[:HEADERSIZE])
             new_msg = False
-        
-        #print(f"full message length : {msglen}")
 
         full_msg += msg
 
-        #print(len(full_msg))
-
         if (len(full_msg) - HEADERSIZE == msglen):
-            #print("Full message recieved")
-            #print(full_msg[HEADERSIZE:]) # prints bytes in hex
+            # recieved encrypted int array
             enc = pickle.loads(full_msg[HEADERSIZE:])
-            #print(enc) # prints the int array
+            #print(enc)
+            # decrypted string
             dec = decrypt_message(enc, q, f, g)
-            print(dec) # print the decrypted message
-            new_msg = True
-            full_msg = b""
-            # if successfully printed the message
-            # its our turn to send message
-            # break and proceed to 'send message' phase
+            print(dec)
             break 
-
-    # print("Waiting for reply...")
-    # recieved_msg = con.recv(1024)
-    # dec = decrypt_message(recieved_msg.decode(), q, f, g)
-    # print("Client message: ", dec)

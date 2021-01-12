@@ -20,35 +20,19 @@ while True:
     while True:
         msg = s.recv(16)
         if new_msg:
-            #print("new msg len:", msg[:HEADERSIZE])
             msglen = int(msg[:HEADERSIZE])
             new_msg = False
-        
-        #print(f"full message length : {msglen}")
 
         full_msg += msg
 
-        #print(len(full_msg))
-
         if (len(full_msg) - HEADERSIZE == msglen):
-            #print("Full message recieved")
-            #print(full_msg[HEADERSIZE:]) # prints bytes in hex
+            # recieved encrypted int array
             enc = pickle.loads(full_msg[HEADERSIZE:])
-            #print(enc) # prints the int array
+            #print(enc)
+            # decrypted string
             dec = decrypt_message(enc, q, f, g)
-            print(dec) # print the decrypted message
-            new_msg = True
-            full_msg = b""
-            # if successfully printed the message
-            # its our turn to send message
-            # break and proceed to 'send message' phase
+            print(dec)
             break 
-
-    # recieved_msg = s.recv(1024)
-    # dec = decrypt_message(recieved_msg.decode(), q, f, g)
-    # print("message from server: ", dec)
-
-    #################################
 
     # send message
     msg = input("Send message to server: ") # input str
@@ -56,7 +40,3 @@ while True:
     sendthis = pickle.dumps(enc)
     sendthis = bytes(f"{len(sendthis):<{HEADERSIZE}}", 'utf-8')+sendthis
     s.send(sendthis)
-
-    # msg = input("send message to server: ")
-    # enc = encrypt_message(msg, q, f, g)
-    # s.send(enc.encode())

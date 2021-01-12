@@ -32,14 +32,12 @@ def ntru_encrypt(m, q, f, g):
 		sys.exit()
 
 	h = ( modinv(f, q) * g ) % q
-	#print("h : ", h) # debug
 
 	priv_key = [f, g]
 	pub_key = [q, h]
 
 	# encryption
 	r = random.randint(1, math.floor(math.sqrt(q/2)))
-	#r = 113500 # debug # careful
 	if ( r >= math.sqrt(q/2) ):
 		print("error: ntru_encrypt(): r out of range")
 		sys.exit()
@@ -49,13 +47,11 @@ def ntru_encrypt(m, q, f, g):
 
 def ntru_decrypt(e, q, f, g):
 	a = (f * e) % q
-	#print("a : ", a) # debug
 	if ( 0 > a or a > q):
 		print("error: ntru_decrypt(): a out of range")
 		sys.exit()
 
 	b = (modinv(f, g) * a) % g
-	#print("b : ", b) # debug
 	if ( 0 > b or b > g):
 		print("error: ntru_decrypt(): b out of range")
 		sys.exit()
@@ -76,8 +72,7 @@ def encrypt_message(msg, q, f, g):
 
 		# add it to our int array that we will send
 		new.append(enc)
-
-	#print("encrypt_message() : new : ", new) # debug
+		
 	return new
 
 # recieves enc - integer
@@ -87,7 +82,6 @@ def decrypt_message(enc, q, f, g):
 	for element in enc:
 		character = chr( ntru_decrypt(element, q, f, g) ) # append decrypted char
 		new += character
-	#print("decrypt_message() : new : ", new) # debug
 	return new	
 
 
