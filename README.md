@@ -1,1 +1,1 @@
-NTRU Integer encrypted chatting over socket. 
+NTRU Integer encrypted chatting over socket.
