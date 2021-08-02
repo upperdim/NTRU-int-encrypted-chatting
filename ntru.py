@@ -2,6 +2,7 @@ import math
 import random
 import sys
 
+
 def egcd(a, b):
     if a == 0:
         return (b, 0, 1)
@@ -9,12 +10,14 @@ def egcd(a, b):
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
 
+
 def modinv(a, m):
     g, x, y = egcd(a, m)
     if g != 1:
         raise Exception('modular inverse does not exist')
     else:
         return x % m
+
 
 def ntru_encrypt(m, q, f, g):
 	# key creation
@@ -45,6 +48,7 @@ def ntru_encrypt(m, q, f, g):
 	e = (r * h + m) % q
 	return e 
 
+
 def ntru_decrypt(e, q, f, g):
 	a = (f * e) % q
 	if ( 0 > a or a > q):
@@ -58,9 +62,10 @@ def ntru_decrypt(e, q, f, g):
 
 	return b
 
-# recieves msg - string
-# returns new - integer array
+
 def encrypt_message(msg, q, f, g):
+	"""receives msg  (string)
+	   returns 'new' (integer array)"""
 	new = []
 
 	for element in msg:
@@ -75,9 +80,10 @@ def encrypt_message(msg, q, f, g):
 		
 	return new
 
-# recieves enc - integer
-# returns new - string
+
 def decrypt_message(enc, q, f, g):
+	"""receives enc  (integer)
+	   returns 'new' (string)"""
 	new = ""
 	for element in enc:
 		character = chr( ntru_decrypt(element, q, f, g) ) # append decrypted char
@@ -86,7 +92,6 @@ def decrypt_message(enc, q, f, g):
 
 
 # driver code for testing ntru_encrypt() ntru_decrypt()
-# all works
 
 # q = 122430513841
 # f = 231231
