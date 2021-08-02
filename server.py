@@ -12,10 +12,11 @@ g = 195698
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((socket.gethostname(), 1243))
 s.listen(5)
+print('Waiting for client connection...')
 
 con, addr = s.accept()
 #print("Connected to ", addr).
-print("Connected") # dont show ip or adresses
+print("Connected.") # dont show ip or adresses
 
 while True:
     msg = input("Send message to client: ")

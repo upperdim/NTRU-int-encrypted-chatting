@@ -8,8 +8,10 @@ q = 122430513841
 f = 231231
 g = 195698
 
+print('Waiting for server connection...')
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 s.connect((socket.gethostname(),1243))
+print('Connected.')
 
 while True:
     print("Wating for reply...")
