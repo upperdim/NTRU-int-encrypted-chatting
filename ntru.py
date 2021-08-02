@@ -1,6 +1,9 @@
-import math
-import random
-import sys
+# import math
+# import random
+# import sys
+from math import floor, gcd, sqrt
+from random import randint
+from sys import exit
 
 
 def egcd(a, b):
@@ -21,29 +24,29 @@ def modinv(a, m):
 
 def ntru_encrypt(m, q, f, g):
 	# key creation
-	if ( f >= math.sqrt(q/2) ):
+	if f >= sqrt(q/2):
 		print("error: ntru_encrypt(): f out of range")
-		sys.exit()
-	if ( math.sqrt(q/4) >= g or g >= math.sqrt(q/2) ):
+		exit()
+	if sqrt(q/4) >= g or g >= sqrt(q/2):
 		print("error: ntru_encrypt(): g out of range")
-		sys.exit()
-	if ( math.gcd(f, g*q) != 1 ):
+		exit()
+	if gcd(f, g*q) != 1:
 		print("error: ntru_encrypt(): gcd condition failed")
-		sys.exit()
-	if ( m >= math.sqrt(q/4) ):
+		exit()
+	if m >= sqrt(q/4):
 		print("error: ntru_encrypt(): m out of range")
-		sys.exit()
+		exit()
 
-	h = ( modinv(f, q) * g ) % q
+	h = (modinv(f, q) * g) % q
 
 	priv_key = [f, g]
-	pub_key = [q, h]
+	pub_key  = [q, h]
 
 	# encryption
-	r = random.randint(1, math.floor(math.sqrt(q/2)))
-	if ( r >= math.sqrt(q/2) ):
+	r = randint(1, floor(sqrt(q/2)))
+	if r >= sqrt(q/2):
 		print("error: ntru_encrypt(): r out of range")
-		sys.exit()
+		exit()
 
 	e = (r * h + m) % q
 	return e 
@@ -51,14 +54,14 @@ def ntru_encrypt(m, q, f, g):
 
 def ntru_decrypt(e, q, f, g):
 	a = (f * e) % q
-	if ( 0 > a or a > q):
+	if 0 > a or a > q:
 		print("error: ntru_decrypt(): a out of range")
-		sys.exit()
+		exit()
 
 	b = (modinv(f, g) * a) % g
-	if ( 0 > b or b > g):
+	if 0 > b or b > g:
 		print("error: ntru_decrypt(): b out of range")
-		sys.exit()
+		exit()
 
 	return b
 
@@ -86,7 +89,7 @@ def decrypt_message(enc, q, f, g):
 	   returns 'new' (string)"""
 	new = ""
 	for element in enc:
-		character = chr( ntru_decrypt(element, q, f, g) ) # append decrypted char
+		character = chr( ntru_decrypt(element, q, f, g) )  # append decrypted char
 		new += character
 	return new	
 
