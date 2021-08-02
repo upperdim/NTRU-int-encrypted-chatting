@@ -1,6 +1,3 @@
-# import math
-# import random
-# import sys
 from math import floor, gcd, sqrt
 from random import randint
 from sys import exit
