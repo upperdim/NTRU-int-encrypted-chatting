@@ -19,20 +19,22 @@ def modinv(a, m):
         return x % m
 
 
+def error_exit(err_msg):
+	"""Exits the program by printing the err_msg to console first"""
+	print(err_msg)
+	exit()
+
+
 def ntru_encrypt(m, q, f, g):
 	# key creation
 	if f >= sqrt(q/2):
-		print("error: ntru_encrypt(): f out of range")
-		exit()
+		error_exit("error: ntru_encrypt(): f out of range")
 	if sqrt(q/4) >= g or g >= sqrt(q/2):
-		print("error: ntru_encrypt(): g out of range")
-		exit()
+		error_exit("error: ntru_encrypt(): g out of range")
 	if gcd(f, g*q) != 1:
-		print("error: ntru_encrypt(): gcd condition failed")
-		exit()
+		error_exit("error: ntru_encrypt(): gcd condition failed")
 	if m >= sqrt(q/4):
-		print("error: ntru_encrypt(): m out of range")
-		exit()
+		error_exit("error: ntru_encrypt(): m out of range")
 
 	h = (modinv(f, q) * g) % q
 
@@ -42,8 +44,7 @@ def ntru_encrypt(m, q, f, g):
 	# encryption
 	r = randint(1, floor(sqrt(q/2)))
 	if r >= sqrt(q/2):
-		print("error: ntru_encrypt(): r out of range")
-		exit()
+		error_exit("error: ntru_encrypt(): r out of range")
 
 	e = (r * h + m) % q
 	return e 
@@ -52,13 +53,11 @@ def ntru_encrypt(m, q, f, g):
 def ntru_decrypt(e, q, f, g):
 	a = (f * e) % q
 	if 0 > a or a > q:
-		print("error: ntru_decrypt(): a out of range")
-		exit()
+		error_exit("error: ntru_decrypt(): a out of range")
 
 	b = (modinv(f, g) * a) % g
 	if 0 > b or b > g:
-		print("error: ntru_decrypt(): b out of range")
-		exit()
+		error_exit("error: ntru_decrypt(): b out of range")
 
 	return b
 
